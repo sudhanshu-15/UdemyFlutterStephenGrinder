@@ -51,5 +51,7 @@ class NewsDbProvider {
     return null;
   }
 
-  addItem() {}
+  addItem(ItemModel item) {
+    return db.insert(_tablename, item.toMap());
+  }
 }
