@@ -28,9 +28,7 @@ class Repository {
       }
     }
     for (var cache in caches) {
-      if (cache != (source as Cache)) {
-        cache.addItem(item);
-      }
+      cache.addItem(item);
     }
     return item;
   }
