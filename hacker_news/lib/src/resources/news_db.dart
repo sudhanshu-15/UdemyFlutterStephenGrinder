@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:hacker_news/src/models/item_model.dart';
@@ -38,7 +39,7 @@ class NewsDbProvider {
     );
   }
 
-  fetchItem(int id) async {
+  Future<ItemModel> fetchItem(int id) async {
     final maps = await db.query(
       _tablename,
       columns: null,
@@ -51,7 +52,7 @@ class NewsDbProvider {
     return null;
   }
 
-  addItem(ItemModel item) {
+  Future<int> addItem(ItemModel item) {
     return db.insert(_tablename, item.toMap());
   }
 }

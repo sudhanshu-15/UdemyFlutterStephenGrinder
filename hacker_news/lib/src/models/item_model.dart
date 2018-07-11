@@ -60,6 +60,6 @@ class ItemModel {
       "descendants": descendants,
       "deleted": deleted ? 1 : 0,
       "kids": jsonEncode(kids),
-    }
+    };
   }
 }
