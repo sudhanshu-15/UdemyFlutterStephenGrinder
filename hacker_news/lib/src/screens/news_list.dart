@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hacker_news/src/blocs/stories_provider.dart';
 import 'package:hacker_news/src/widgets/newslist_tile.dart';
+import 'package:hacker_news/src/widgets/refresh.dart';
 
 class NewsList extends StatelessWidget {
   @override
@@ -24,14 +25,16 @@ class NewsList extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         }
-        return ListView.builder(
-          itemCount: snapshot.data.length,
-          itemBuilder: (context, int index) {
-            bloc.fetchItem(snapshot.data[index]);
-            return NewsListTile(
-              itemId: snapshot.data[index],
-            );
-          },
+        return Refresh(
+          child: ListView.builder(
+            itemCount: snapshot.data.length,
+            itemBuilder: (context, int index) {
+              bloc.fetchItem(snapshot.data[index]);
+              return NewsListTile(
+                itemId: snapshot.data[index],
+              );
+            },
+          ),
         );
       },
     );
