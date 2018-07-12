@@ -20,7 +20,8 @@ class Repository {
 
   Future<ItemModel> fetchItem(int id) async {
     ItemModel item;
-    for (Source source in sources) {
+    Source source;
+    for (source in sources) {
       item = await source.fetchItem(id);
       if (item != null) {
         break;
@@ -31,6 +32,12 @@ class Repository {
     }
     return item;
   }
+
+  clearCache() async {
+    for (Cache cache in caches) {
+      await cache.clear();
+    }
+  }
 }
 
 abstract class Source {
@@ -40,4 +47,5 @@ abstract class Source {
 
 abstract class Cache {
   Future<int> addItem(ItemModel item);
+  Future<int> clear();
 }
