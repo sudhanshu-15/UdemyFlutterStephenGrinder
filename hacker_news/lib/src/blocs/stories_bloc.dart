@@ -25,6 +25,10 @@ class StoriesBloc {
     _topIds.sink.add(ids);
   }
 
+  clearCache() {
+    return _repository.clearCache();
+  }
+
   void dispose() {
     _topIds.close();
     _itemsOutput.close();
