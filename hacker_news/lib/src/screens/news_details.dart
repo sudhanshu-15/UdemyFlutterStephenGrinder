@@ -50,6 +50,7 @@ class NewsDetails extends StatelessWidget {
       return Comment(
         itemId: commentId,
         itemMap: itemMap,
+        depth: 0,
       );
     }).toList();
     children.addAll(commentsList);
@@ -58,7 +59,6 @@ class NewsDetails extends StatelessWidget {
   }
 
   Widget buildStory(ItemModel item) {
-    print(item.id);
     return Container(
       alignment: Alignment.center,
       margin: EdgeInsets.all(8.0),
