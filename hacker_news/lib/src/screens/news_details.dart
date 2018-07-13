@@ -5,10 +5,12 @@ import 'package:hacker_news/src/blocs/comments_bloc.dart';
 import 'package:hacker_news/src/blocs/comments_provider.dart';
 import 'package:hacker_news/src/models/item_model.dart';
 import 'package:hacker_news/src/widgets/comment.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NewsDetails extends StatelessWidget {
   final itemId;
   NewsDetails({this.itemId});
+  Future<Null> _launched;
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +52,7 @@ class NewsDetails extends StatelessWidget {
       return Comment(
         itemId: commentId,
         itemMap: itemMap,
+        depth: 0,
       );
     }).toList();
     children.addAll(commentsList);
@@ -58,7 +61,6 @@ class NewsDetails extends StatelessWidget {
   }
 
   Widget buildStory(ItemModel item) {
-    print(item.id);
     return Container(
       alignment: Alignment.center,
       margin: EdgeInsets.all(8.0),
@@ -104,10 +106,36 @@ class NewsDetails extends StatelessWidget {
             ),
             onPressed: () {
               print('Launch ${item.url}');
+              _launched = _launchUrl(item.url);
             },
-          )
+          ),
+          FutureBuilder<Null>(
+            future: _launched,
+            builder: _lauchStatus,
+          ),
         ],
       ),
+    );
+  }
+
+  Future<Null> _launchUrl(String url) async {
+    if (url.length == 0 || url == null) {
+      throw "Couldn't launch url";
+    } else {
+      await launch(url, forceWebView: true);
+    }
+  }
+
+  Widget _lauchStatus(BuildContext context, AsyncSnapshot<Null> snapshot) {
+    if (snapshot.hasError) {
+      Scaffold.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Failed to load news'),
+            ),
+          );
+    }
+    return Container(
+      height: 1.0,
     );
   }
 }

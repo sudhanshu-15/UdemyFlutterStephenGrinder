@@ -13,6 +13,7 @@ class App extends StatelessWidget {
           title: 'HackerNews',
           theme: ThemeData(
             primarySwatch: Colors.orange,
+            brightness: Brightness.light,
           ),
           onGenerateRoute: routes,
         ),
@@ -24,6 +25,8 @@ class App extends StatelessWidget {
     if (settings.name == '/') {
       return MaterialPageRoute(
         builder: (context) {
+          final bloc = StoriesProvider.of(context);
+          bloc.fetchTopIds();
           return NewsList();
         },
       );
@@ -32,7 +35,9 @@ class App extends StatelessWidget {
         final commentsBloc = CommentsProvider.of(context);
         final itemId = int.parse(settings.name.replaceFirst("/", ''));
         commentsBloc.fetchItemWithComments(itemId);
-        return NewsDetails(itemId: itemId,);
+        return NewsDetails(
+          itemId: itemId,
+        );
       });
     }
   }
